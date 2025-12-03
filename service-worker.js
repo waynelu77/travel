@@ -1,11 +1,12 @@
 const CACHE_NAME = "au-trip-2025-v1";
 
 const ASSETS = [
-    "./",
-    "./index.html",
-    "./manifest.json",
-    "./icons/icon-192.png",
-    "./icons/icon-512.png"
+// 請將 "./" 替換成您的子目錄名稱
+    "/travel/", // <-- 使用絕對路徑確保緩存首頁
+    "./index.html",
+    "./manifest.json",
+    "./icons/icon-192.png",
+    "./icons/icon-512.png"
 ];
 
 // Install
@@ -38,3 +39,4 @@ self.addEventListener("fetch", event => {
         })
     );
 });
+
