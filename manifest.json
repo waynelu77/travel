@@ -1,0 +1,22 @@
+{
+    "name": "Australia Trip 2025",
+    "short_name": "AU 2025",
+    "description": "Family trip itinerary for Australia 2025",
+    "start_url": "./index.html",
+    "scope": "./",
+    "display": "standalone",
+    "background_color": "#f7f5ef",
+    "theme_color": "#4a6741",
+    "icons": [
+        {
+            "src": "icons/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
