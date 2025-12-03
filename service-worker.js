@@ -6,10 +6,7 @@ const ASSETS = [
     "./index.html",
     "./manifest.json",
     "./icons/icon-192.png",
-    "./icons/icon-512.png",
-    "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Noto+Sans+TC:wght@300;400;500;700&display=swap",
-    "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css",
-    "https://cdn.tailwindcss.com"
+    "./icons/icon-512.png"
 ];
 
 // Install
@@ -42,6 +39,7 @@ self.addEventListener("fetch", event => {
         })
     );
 });
+
 
 
 
