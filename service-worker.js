@@ -31,14 +31,15 @@ self.addEventListener("activate", event => {
     self.clients.claim();
 });
 
-// Fetch
+// Fetch 邏輯保持不變
 self.addEventListener("fetch", event => {
-    event.respondWith(
-        caches.match(event.request).then(resp => {
-            return resp || fetch(event.request);
-        })
-    );
+    event.respondWith(
+        caches.match(event.request).then(resp => {
+            return resp || fetch(event.request); // 在此步驟會緩存成功下載的外部資源
+        })
+    );
 });
+
 
 
 
