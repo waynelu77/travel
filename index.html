@@ -182,6 +182,36 @@
     });
   }
 </script>
-</body>
+<body class="text-sand-800 font-sans antialiased pb-24 min-h-screen flex items-center justify-center bg-sand-100">
+  <!-- 載入中的畫面（會在 JS 跑完前顯示） -->
+  <div id="loading" class="text-center">
+    <div class="w-16 h-16 border-4 border-eucalyptus border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+    <p class="text-eucalyptus-dark font-medium">正在載入澳洲行程…</p>
+    <p class="text-sm text-stone-500 mt-2">第一次會稍微慢一點喔</p>
+  </div>
+
+  <!-- 原本的內容用一個 div 包起來，一開始隱藏 -->
+  <div id="app-content" class="hidden w-full">
+    <header class="fixed top-0 ...（以下全部你原本的 header、main、nav 內容）">
+    <!-- 這裡貼上你原本從 <header> 到 </nav> 的全部程式碼 -->
+    </header>
+
+    <main id="app" class="max-w-md mx-auto px-4 pt-20 mt-2 min-h-screen"></main>
+
+    <nav class="fixed bottom-0 ..."> ... </nav>
+  </div>
+
+  <script>
+    // 等整個頁面資源都準備好才顯示真正內容
+    window.addEventListener('load', () => {
+      setTimeout(() => {  // 多加 500ms 確保字型之類的都好了
+        document.getElementById('loading').classList.add('hidden');
+        document.getElementById('app-content').classList.remove('hidden');
+        document.body.classList.remove('flex', 'items-center', 'justify-center');
+        document.body.classList.add('bg-sand-100'); // 恢復原本背景
+      }, 500);
+    });
+  </script>
 </html>
+
 
