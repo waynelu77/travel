@@ -5,28 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Australia Trip 2025</title>
 
-    <!-- ===== iOS Web App 必備（加入主畫面）===== -->
+    <!-- iOS Web App 必備 -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="澳洲2025">
     <meta name="format-detection" content="telephone=no">
     <meta name="theme-color" content="#f7f5ef">
 
-    <!-- iOS 啟動畫面（splash screen）自動產生 -->
-    <link rel="apple-touch-startup-image" href="https://waynelu77.github.io/travel/splash/2048x2048.png" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)">
-    <link rel="apple-touch-startup-image" href="https://waynelu77.github.io/travel/splash/2732x2732.png" media="(min-device-width: 1290px)">
-
-    <!-- iOS 主畫面圖示（建議放 6 種尺寸，GitHub Pages 可直接放同一張 1024 即可） -->
+    <!-- iOS 圖示（正確路徑） -->
     <link rel="apple-touch-icon" href="https://waynelu77.github.io/travel/icons/icon-192.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://waynelu77.github.io/travel/icon-180.png">
-    <link rel="apple-touch-icon" sizes="167x167" href="https://waynelu77.github.io/travel/icon-167.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://waynelu77.github.io/travel/icon-152.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://waynelu77.github.io/travel/icon-120.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://waynelu77.github.io/travel/icons/icon-180.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="https://waynelu77.github.io/travel/icons/icon-167.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://waynelu77.github.io/travel/icons/icon-152.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://waynelu77.github.io/travel/icons/icon-120.png">
 
-    <!-- Web App Manifest（PWA） -->
+    <!-- PWA Manifest -->
     <link rel="manifest" href="https://waynelu77.github.io/travel/manifest.json">
 
-    <!-- 其餘原本的資源 -->
+    <!-- 資源 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -35,29 +31,14 @@
 
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        sand: {
-                            50: '#fdfcf8',
-                            100: '#f7f5ef',
-                            200: '#e8e4d8',
-                            800: '#5c5446',
-                        },
-                        eucalyptus: {
-                            light: '#7d9c74',
-                            DEFAULT: '#4a6741',
-                            dark: '#2e4228',
-                        },
-                        clay: {
-                            DEFAULT: '#c25e00',
-                            light: '#e08e45'
-                        }
+                        sand: { 50: '#fdfcf8', 100: '#f7f5ef', 200: '#e8e4d8', 800: '#5c5446' },
+                        eucalyptus: { light: '#7d9c74', DEFAULT: '#4a6741', dark: '#2e4228' },
+                        clay: { DEFAULT: '#c25e00', light: '#e08e45' }
                     },
-                    fontFamily: {
-                        sans: ['"Inter"', '"Noto Sans TC"', 'sans-serif'],
-                    }
+                    fontFamily: { sans: ['"Inter"', '"Noto Sans TC"', 'sans-serif'] }
                 }
             }
         }
@@ -67,99 +48,168 @@
         body { -webkit-tap-highlight-color: transparent; background-color: #f7f5ef; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
         .tab-content { display: none; animation: fadeIn 0.3s ease-in-out; }
         .tab-content.active { display: block; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .nav-item.active { color: #4a6741; }
         .nav-item.active i { transform: translateY(-2px); }
-
-        .card {
-            background: white;
-            border-radius: 1rem;
-            box-shadow: 0 2px 8px rgba(92, 84, 70, 0.05);
-            border: 1px solid rgba(232, 228, 216, 0.6);
-        }
-
-        /* iOS 安全區（iPhone X 以上） */
+        .card { background: white; border-radius: 1rem; box-shadow: 0 2px 8px rgba(92,84,70,0.05); border: 1px solid rgba(232,228,216,0.6); }
         .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
     </style>
 </head>
-<body class="text-sand-800 font-sans antialiased pb-24">
 
-    <header class="fixed top-0 w-full bg-sand-50/90 backdrop-blur-md z-40 border-b border-sand-200 shadow-sm">
-        <div class="max-wincter-md mx-auto px-5 py-4 flex justify-between items-center">
-            <div>
-                <h1 class="text-xl font-bold text-eucalyptus tracking-wide">Australia 2025</h1>
-                <p class="text-xs text-stone-500 font-light" id="current-date">Loading...</p>
+<body class="text-sand-800 font-sans antialiased min-h-screen flex items-center justify-center bg-sand-100">
+    
+    <!-- Loading 畫面 -->
+    <div id="loading" class="text-center z-50">
+        <div class="w-16 h-16 border-4 border-eucalyptus border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+        <p class="text-eucalyptus-dark font-medium text-lg">正在載入澳洲行程…</p>
+        <p class="text-sm text-stone-500 mt-2">第一次會稍微慢一點喔</p>
+    </div>
+
+    <!-- 真正內容（一開始隱藏） -->
+    <div id="app-content" class="hidden w-full h-full">
+        <header class="fixed top-0 w-full bg-sand-50/90 backdrop-blur-md z-40 border-b border-sand-200 shadow-sm">
+            <div class="max-w-md mx-auto px-5 py-4 flex justify-between items-center">
+                <div>
+                    <h1 class="text-xl font-bold text-eucalyptus tracking-wide">Australia 2025</h1>
+                    <p class="text-xs text-stone-500 font-light" id="current-date">Loading...</p>
+                </div>
+                <div class="w-8 h-8 rounded-full bg-eucalyptus text-white flex items-center justify-center text-xs font-bold shadow-md">AU</div>
             </div>
-            <div class="w-8 h-8 rounded-full bg-eucalyptus text-white flex items-center justify-center text-xs font-bold shadow-md">
-                AU
+        </header>
+
+        <main id="app" class="max-w-md mx-auto px-4 pt-20 mt-2 min-h-screen"></main>
+
+        <nav class="fixed bottom-0 left-0 w-full bg-white border-t border-sand-200 z-50 pb-safe shadow-[0_-5px_15px_rgba(0,0,0,0.02)]">
+            <div class="max-w-md mx-auto flex justify-around items-center h-16 px-2">
+                <button onclick="switchTab('plan')" class="nav-item active flex flex-col items-center justify-center w-full h-full text-gray-400 hover:text-eucalyptus transition-all"><i class="fa-solid fa-map-location-dot text-lg mb-1"></i><span class="text-[10px] font-medium">行程</span></button>
+                <button onclick="switchTab('hotels')" class="nav-item flex flex-col items-center justify-center w-full h-full text-gray-400 hover:text-eucalyptus transition-all"><i class="fa-solid fa-bed text-lg mb-1"></i><span class="text-[10px] font-medium">住宿</span></button>
+                <button onclick="switchTab('guide')" class="nav-item flex flex-col items-center justify-center w-full h-full text-gray-400 hover:text-eucalyptus transition-all"><i class="fa-solid fa-book-open text-lg mb-1"></i><span class="text-[10px] font-medium">導覽</span></button>
+                <button onclick="switchTab('wallet')" class="nav-item flex flex-col items-center justify-center w-full h-full text-gray-400 hover:text-eucalyptus transition-all"><i class="fa-solid fa-wallet text-lg mb-1"></i><span class="text-[10px] font-medium">錢包</span></button>
+                <button onclick="switchTab('lists')" class="nav-item flex flex-col items-center justify-center w-full h-full text-gray-400 hover:text-eucalyptus transition-all"><i class="fa-solid fa-list-check text-lg mb-1"></i><span class="text-[10px] font-medium">清單</span></button>
+                <button onclick="switchTab('info')" class="nav-item flex flex-col items-center justify-center w-full h-full text-gray-400 hover:text-eucalyptus transition-all"><i class="fa-solid fa-circle-info text-lg mb-1"></i><span class="text-[10px] font-medium">資訊</span></button>
             </div>
-        </div>
-    </header>
+        </nav>
+    </div>
 
-    <main id="app" class="max-w-md mx-auto px-4 pt-20 mt-2 min-h-screen"></main>
-
-    <nav class="fixed bottom-0 left-0 w-full bg-white border-t border-sand-200 z-50 pb-safe shadow-[0_-5px_15px_rgba(0,0,0,0.02)]">
-        <div class="max-w-md mx-auto flex justify-around items-center h-16 px-2">
-            <button onclick="switchTab('plan')" class="nav-item active flex flex-col items-center justify-center w-full h-full text-gray-400 hover:text-eucalyptus transition-all">
-                <i class="fa-solid fa-map-location-dot text-lg mb-1"></i>
-                <span class="text-[10px] font-medium">行程</span>
-            </button>
-            <button onclick="switchTab('hotels')" class="nav-item flex flex-col items-center justify-center w-full h-full text-gray-400 hover:text-eucalyptus transition-all">
-                <i class="fa-solid fa-bed text-lg mb-1"></i>
-                <span class="text-[10px] font-medium">住宿</span>
-            </button>
-            <button onclick="switchTab('guide')" class="nav-item flex flex-col items-center justify-center w-full h-full text-gray-400 hover:text-eucalyptus transition-all">
-                <i class="fa-solid fa-book-open text-lg mb-1"></i>
-                <span class="text-[10px] font-medium">導覽</span>
-            </button>
-            <button onclick="switchTab('wallet')" class="nav-item flex flex-col items-center justify-center w-full h-full text-gray-400 hover:text-eucalyptus transition-all">
-                <i class="fa-solid fa-wallet text-lg mb-1"></i>
-                <span class="text-[10px] font-medium">錢包</span>
-            </button>
-            <button onclick="switchTab('lists')" class="nav-item flex flex-col items-center justify-center w-full h-full text-gray-400 hover:text-eucalyptus transition-all">
-                <i class="fa-solid fa-list-check text-lg mb-1"></i>
-                <span class="text-[10px] font-medium">清單</span>
-            </button>
-            <button onclick="switchTab('info')" class="nav-item flex flex-col items-center justify-center w-full h-full text-gray-400 hover:text-eucalyptus transition-all">
-                <i class="fa-solid fa-circle-info text-lg mb-1"></i>
-                <span class="text-[10px] font-medium">資訊</span>
-            </button>
-        </div>
-    </nav>
-
-    <!-- 其餘原本的全部 script（未變動） -->
     <script>
-        // （你原本的全部 JavaScript 內容完全保留，只是補上幾個小修）
-        const tripData = { /* ... 全部資料相同 ... */ };
+        // ==================== 全部資料與函數 ====================
+        const tripData = {
+            itinerary: [
+                { day: "Day 1", date: "12/7（六）", city: "雪梨", title: "抵達與港灣初探", icon: "✈️", events: [{ time: "12:10", title: "航班抵達 (CI51)", desc: "預留 1.5小時出關。機場接送前往市區", type: "transport" }, { time: "14:30", title: "入住 Meriton Suites Kent Street", desc: "房內附有完整廚具、洗衣機、烘衣機", type: "checkin", mapQuery: "Meriton Suites Kent Street Sydney" }, { time: "15:30", title: "岩石區 & 港灣大橋", desc: "步行約15分。鵝卵石路面，注意長輩行走", type: "walk", mapQuery: "The Rocks Sydney" }, { time: "18:00", title: "晚餐：The Lord Nelson", desc: "雪梨最古老酒吧之一", type: "food", highlight: true, mapQuery: "The Lord Nelson Brewery Hotel" }, { time: "20:00", title: "雪梨天文台夜景", desc: "欣賞港灣夜景", type: "sight", mapQuery: "Sydney Observatory" }] },
+                { day: "Day 2", date: "12/8（日）", city: "雪梨", title: "動物園與文化巡禮", icon: "動物", events: [{ time: "09:00", title: "塔龍加動物園", desc: "至 Darling Harbour 搭乘渡輪前往", type: "sight", mapQuery: "Darling Harbour, Convention Jetty" }, { time: "12:30", title: "午餐：自備野餐", desc: "園內選擇少，建議自備輕食", type: "food" }, { time: "14:00", title: "雪梨歌劇院導覽", desc: "1小時中文導覽，需提前15分報到", type: "sight", highlight: true, mapQuery: "Sydney Opera House" }, { time: "15:30", title: "皇家植物園散步", desc: "Mrs Macquarie’s Chair 拍照", type: "walk", mapQuery: "Mrs Macquarie's Chair" }, { time: "18:00", title: "晚餐：The Grounds", desc: "市中心網美餐廳，已訂位", type: "food", highlight: true, mapQuery: "The Grounds of the City" }, { time: "20:00", title: "Black Star Pastry", desc: "必吃西瓜蛋糕", type: "food", mapQuery: "Black Star Pastry Sydney" }] },
+                { day: "Day 3", date: "12/9（一）", city: "藍山", title: "國家公園一日遊", icon: "樹", events: [{ time: "09:00", title: "Sixt 取車出發", desc: "City店取車，車程約 1.5-2 小時", type: "transport", mapQuery: "Sixt Car Rental Sydney City" }, { time: "12:00", title: "蘿拉小鎮 (Leura)", desc: "午餐推薦 Pho Moi", type: "walk", mapQuery: "Pho Moi" }, { time: "14:00", title: "藍山景觀世界", desc: "纜車、觀景台、天空步道。適合長輩", type: "sight", mapQuery: "Scenic World Blue Mountains" }, { time: "16:30", title: "三姐妹岩觀景台", desc: "Echo Point 觀景台", type: "sight", mapQuery: "Three Sisters walk" }, { time: "18:30", title: "晚餐：Katoomba", desc: "鎮上用餐後回雪梨", type: "food", mapQuery: "Katoomba Town Centre" }, { time: "22:00", title: "返回飯店 / 還車", desc: "", type: "Sixt Car Rental Sydney City" }] },
+                { day: "Day 4", date: "12/10（二）", city: "墨爾本", title: "飛行與企鵝相遇", icon: "企鵝", events: [{ time: "10:50", title: "飛往墨爾本 (JQ513)", desc: "12:25 抵達 MEL", type: "Sydney Airport" }, { time: "13:30", title: "機場取車出發", desc: "East Coast Car Rentals。前往菲利普島", type: "San Remo Fishermans Co-Op" }, { time: "16:00", title: "入住 Ramada Resort", desc: "途經 San Remo 吃炸魚薯條", type: "checkin", mapQuery: "Ramada Resort by Wyndham Phillip Island" }, { time: "18:30", title: "企鵝歸巢", desc: "日落後開始，注意保暖", type: "sight", highlight: true, mapQuery: "Penguin Parade" }] },
+                { day: "Day 5", date: "12/11（三）", city: "大洋路", title: "壯闊海岸線之旅", icon: "海浪", events: [{ time: "09:00", title: "Nobbies Centre", desc: "海岸步道，看海豹島", type: "sight", mapQuery: "The Nobbies" }, { time: "12:00", title: "Torquay 午餐", desc: "大洋路起點標誌拍照", type: "food", mapQuery: "Great Ocean Road Memorial Arch" }, { time: "15:00", title: "Lorne 小鎮", desc: "Teddy's Lookout 觀景", type: "sight", mapQuery: "Teddy's Lookout" }, { time: "18:00", title: "入住 Coastal Motel", desc: "Apollo Bay", type: "checkin", mapQuery: "Coastal Motel Apollo Bay" }, { time: "19:30", title: "晚餐：Casalingo", desc: "義大利家庭餐館", type: "food", mapQuery: "Casalingo Apollo Bay" }] },
+                { day: "Day 6", date: "12/12（四）", city: "大洋路", title: "十二門徒岩精華段", icon: "岩石", events: [{ time: "09:00", title: "大洋路精華", desc: "Gibson Steps, 十二門徒岩", type: "sight", mapQuery: "Twelve Apostles" }, { time: "12:30", title: "Port Campbell 午餐", desc: "鎮內小餐館", type: "food", mapQuery: "Port Campbell" }, { time: "15:00", title: "洛克阿德峽谷", desc: "步道平緩但風大", type: "sight", mapQuery: "Loch Ard Gorge" }, { time: "17:00", title: "入住 Southern Ocean", desc: "家庭友善別墅", type: "checkin", mapQuery: "Southern Ocean Villas" }, { time: "19:00", title: "晚餐：12 Rocks Café", desc: "鎮內輕鬆步行到達", type: "food", mapQuery: "12 Rocks Beach Bar Cafe" }] },
+                { day: "Day 7", date: "12/13（五）", city: "墨爾本", title: "還車與市區安頓", icon: "汽車", events: [{ time: "09:00", title: "返回墨爾本", desc: "走內陸高速公路，約 3.5 小時", type: "Meriton Suites Melbourne" }, { time: "13:00", title: "Meriton Suites Melbourne", desc: "入住/放行李", type: "checkin", mapQuery: "Meriton Suites Melbourne" }, { time: "14:30", title: "司機還車 / 家人水族館", desc: "水族館適合小孩", type: "mixed", mapQuery: "SEA LIFE Melbourne Aquarium" }, { time: "18:00", title: "晚餐：市區探索", desc: "輕鬆選擇", type: "food" }] },
+                { day: "Day 8", date: "12/14（六）", city: "墨爾本", title: "CBD 核心與巷弄", icon: "建築", events: [{ time: "09:00", title: "皇家植物園", desc: "悠閒散步", type: "walk", mapQuery: "Royal Botanic Gardens Melbourne" }, { time: "12:30", title: "南墨爾本市場", desc: "購買 Myki 卡，吃生蠔", type: "food", mapQuery: "South Melbourne Market" }, { time: "14:30", title: "聖科達 (St Kilda)", desc: "搭電車去海邊，Acland St 吃蛋糕", type: "sight", mapQuery: "St Kilda Beach" }] },
+                { day: "Day 9", date: "12/15（日）", city: "墨爾本", title: "花園與生日晚餐", icon: "蛋糕", events: [{ time: "09:00", title: "墨爾本動物園", desc: "主要的戶外親子景點", type: "sight", mapQuery: "Melbourne Zoo" }, { time: "11:30", title: "維多利亞女王市場", desc: "當地最大市場午餐", type: "food", mapQuery: "Queen Victoria Market" }, { time: "15:00", title: "州立圖書館", desc: "La Trobe 閱覽室，有兒童區", type: "sight", mapQuery: "State Library Victoria" }, { time: "18:00", title: "媽媽生日晚餐", desc: "Nomad Melbourne (Flinders Lane)", type: "food", highlight: true, mapQuery: "Nomad Melbourne" }] },
+                { day: "Day 10", date: "12/16（一）", city: "墨爾本", title: "慶典與歸途", icon: "飛機", events: [{ time: "10:00", title: "飯店退房", desc: "寄放行李。", type: "checkin" }, { time: "10:30", title: "墨爾本博物館", desc: "兒童展覽館", type: "sight", mapQuery: "Melbourne Museum" }, { time: "14:30", title: "卡爾頓花園/圖書館", desc: "欣賞 皇家展覽館 建築", type: "walk" }, { time: "18:00", title: "聯邦廣場聖誕市集", desc: "感受聖誕氣氛", type: "sight", mapQuery: "Federation Square" }, { time: "21:00", title: "前往機場", desc: "搭 CI58 (00:25起飛)", type: "transport" }] }
+            ],
+            hotels: [
+                { city: "Sydney", dates: "12/7 - 12/10 (3晚)", name: "Meriton Suites Kent Street", code: "CI5M27YO", room: "2 Bedroom Suite", address: "528 Kent St, Sydney NSW 2000" },
+                { city: "Phillip Island", dates: "12/10 - 12/11 (1晚)", name: "Ramada Resort by Wyndham", code: "1613142513", room: "3-Bedroom Villa", address: "2128 Phillip Island Rd, Cowes VIC 3922" },
+                { city: "Apollo Bay", dates: "12/11 - 12/12 (1晚)", name: "Coastal Motel", code: "5424600860", room: "Deluxe Family Room", address: "173 Great Ocean Rd, Apollo Bay VIC 3233" },
+                { city: "Port Campbell", dates: "12/12 - 12/13 (1晚)", name: "Southern Ocean Villas", code: "BB25053018409796", room: "Deluxe 3-BR Villa", address: "2 McCue St, Port Campbell VIC 3269" },
+                { city: "Melbourne", dates: "12/13 - 12/16 (3晚)", name: "Meriton Suites Melbourne", code: "CI5M2ELJ", room: "2 Bedroom Suite", address: "140 King St, Melbourne VIC 3000" }
+            ],
+            guide: [
+                { title: "雪梨歌劇院的小秘密", content: "雪梨歌劇院的屋頂並不是單純的白色，而是由兩種顏色的磁磚組成：亮白色和奶油色。這是一種自潔磁磚，理論上靠雨水就能清洗乾淨！設計師 Jørn Utzon 當初的靈感來自於剝開的橘子瓣。", map: "Sydney Opera House" },
+                { title: "藍山為什麼是藍的？", content: "藍山名稱的由來是因為這裡廣大的尤加利樹林。尤加利樹會揮發油滴，這些油滴在陽光折射下，會產生藍色的霧氣，讓整個山脈籠罩在夢幻的藍色之中。", map: "Blue Mountains" },
+                { title: "企鵝歸巢注意事項", content: "菲利普島的小企鵝是世界上最小的企鵝品種。觀賞時嚴禁拍照（無論是否開閃光燈），因為企鵝的眼睛非常敏感，閃光或手機螢幕亮光會讓牠們受驚嚇甚至嘔吐，影響歸巢哺育幼鳥。", map: "Phillip Island" },
+                { title: "十二門徒岩 12 Apostles", content: "這些矗立在南大洋中的石灰岩柱，其實從未有過「12」個。目前僅存 7 個（原本有 9 個），這是一個正在「消失中」的景點。海浪每年侵蝕岩壁約 2 公分。", map: "12 Apostles" }
+            ]
+        };
 
-        // 其餘 function 全保留，只補上一個小修：
-        // 導覽頁 iframe 加上正確的 marker（原本寫死，現在動態）
-        function renderGuide(container) {
+        const $ = s => document.querySelector(s);
+        const $$ = s => document.querySelectorAll(s);
+
+        function updateDate() {
+            const now = new Date();
+            const options = { month: 'long', day: 'numeric', weekday: 'short', hour: '2-digit', minute: '2-digit' };
+            $('#current-date').innerText = now.toLocaleDateString('zh-TW', options);
+        }
+        setInterval(updateDate, 60000);
+        updateDate();
+
+        function switchTab(tabName) {
+            $$('.nav-item').forEach(el => el.classList.remove('active'));
+            const btn = Array.from($$('.nav-item')).find(el => el.getAttribute('onclick')?.includes(tabName));
+            if (btn) btn.classList.add('active');
+
+            const app = $('#app');
+            app.innerHTML = '';
+            const container = document.createElement('div');
+            container.className = 'tab-content active pb-10';
+            app.appendChild(container);
+
+            switch(tabName) {
+                case 'plan': renderPlan(container); break;
+                case 'hotels': renderHotels(container); break;
+                case 'guide': renderGuide(container); break;
+                case 'wallet': renderWallet(container); break;
+                case 'lists': renderLists(container); break;
+                case 'info': renderInfo(container); break;
+            }
+            window.scrollTo(0, 0);
+        }
+
+        function openMap(query) {
+            window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`, '_blank');
+        }
+
+        function renderPlan(container) {
             let html = `<div class="space-y-6">`;
-            tripData.guide.forEach(article => {
-                const mapQuery = encodeURIComponent(article.map || "Australia");
+            tripData.itinerary.forEach(day => {
                 html += `
-                    <div class="card p-0 overflow-hidden">
-                        <div class="p-5 bg-sand-50 border-b border-sand-100">
-                            <h3 class="font-serif text-xl text-eucalyptus-dark font-bold mb-2">${article.title}</h3>
-                            <p class="text-stone-600 leading-7 text-justify text-sm">${article.content}</p>
+                    <div class="relative pl-4 border-l-2 border-sand-200">
+                        <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-eucalyptus border-2 border-sand-50"></div>
+                        <div class="mb-4">
+                            <h2 class="text-xl font-bold text-eucalyptus-dark">${day.day} <span class="text-sm font-normal text-stone-500 ml-2">${day.date}</span></h2>
+                            <div class="flex items-center text-clay font-medium mt-1"><span class="mr-2">${day.icon}</span> ${day.city} - ${day.title}</div>
                         </div>
-                        <div class="h-48 w-full bg-stone-100 relative">
-                             <iframe width="100%" height="100%" frameborder="0" scrolling="no" 
-                                src="https://www.openstreetmap.org/export/embed.html?bbox=109,-45,159,-6&layer=mapnik&marker=-33.867%2C151.207"></iframe>
-                             <div class="absolute inset-0 flex items-center justify-center bg-black/5">
-                                <button onclick="openMap('${article.map || 'Australia'}')" class="bg-white/90 backdrop-blur text-stone-800 px-4 py-2 rounded-full shadow-lg text-sm font-medium">
-                                    <i class="fa-solid fa-map mr-2 text-clay"></i>開啟詳細地圖
-                                </button>
-                             </div>
+                        <div class="space-y-3">
+                `;
+                day.events.forEach(ev => {
+                    const highlightClass = ev.highlight ? 'border-clay border-l-4 bg-orange-50/50' : '';
+                    const highlightText = ev.highlight ? 'text-clay font-semibold' : 'text-stone-800 font-semibold';
+                    html += `
+                        <div class="card p-4 ${highlightClass} flex flex-col gap-2">
+                            <div class="flex justify-between items-start">
+                                <div class="flex gap-3">
+                                    <span class="text-sm font-mono text-stone-400 min-w-[45px]">${ev.time}</span>
+                                    <div>
+                                        <h3 class="${highlightText} text-base leading-tight">${ev.title}</h3>
+                                        <p class="text-sm text-stone-600 mt-1 leading-relaxed">${ev.desc}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            ${ev.mapQuery ? `<div class="flex justify-end mt-1"><button onclick="openMap('${ev.mapQuery}')" class="text-xs flex items-center gap-1 text-eucalyptus hover:text-eucalyptus-dark px-2 py-1 rounded bg-sand-100"><i class="fa-solid fa-location-arrow"></i> 導航</button></div>` : ''}
+                        </div>`;
+                });
+                html += `</div></div>`;
+            });
+            html += `</div>`;
+            container.innerHTML = html;
+        }
+
+        function renderHotels(container) {
+            let html = `<div class="grid gap-4">`;
+            tripData.hotels.forEach(h => {
+                html += `
+                    <div class="card p-5 overflow-hidden relative">
+                        <div class="absolute top-0 right-0 bg-eucalyptus text-white text-[10px] px-2 py-1 rounded-bl-lg font-bold">${h.city}</div>
+                        <h3 class="text-lg font-bold text-stone-800 mb-1 pr-10">${h.name}</h3>
+                        <p class="text-xs text-stone-500 mb-3"><i class="fa-regular fa-calendar mr-1"></i> ${h.dates}</p>
+                        <div class="bg-sand-50 rounded-lg p-3 mb-3 border border-sand-100">
+                            <div class="flex justify-between items-center mb-1"><span class="text-xs text-stone-400">訂房代號</span><span class="text-sm font-mono font-bold text-eucalyptus-dark select-all">${h.code}</span></div>
+                            <div class="flex justify-between items-center"><span class="text-xs text-stone-400">房型</span><span class="text-xs font-medium text-stone-700 text-right">${h.room}</span></div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="openMap('${h.address}')" class="flex-1 bg-eucalyptus text-white py-2 rounded-lg text-sm font-medium shadow hover:bg-eucalyptus-dark transition"><i class="fa-solid fa-map-pin mr-1"></i> 地圖</button>
+                            <button onclick="window.open('https://www.youtube.com/results?search_query=${encodeURIComponent(h.name + ' vlog')}', '_blank')" class="flex-1 bg-white border border-stone-200 text-stone-600 py-2 rounded-lg text-sm font-medium hover:bg-stone-50 transition"><i class="fa-brands fa-youtube mr-1 text-red-500"></i> Vlog</button>
                         </div>
                     </div>`;
             });
@@ -167,52 +217,403 @@
             container.innerHTML = html;
         }
 
-        // 其餘所有 render、utils、init 完全不變（省略貼上，保持原樣）
-        // ...（你原本的全部 JavaScript 內容）...
+        function renderGuide(container) {
+            let html = `<div class="space-y-6">`;
+            tripData.guide.forEach(g => {
+                html += `
+                    <div class="card p-0 overflow-hidden">
+                        <div class="p-5 bg-sand-50 border-b border-sand-100">
+                            <h3 class="font-serif text-xl text-eucalyptus-dark font-bold mb-2">${g.title}</h3>
+                            <p class="text-stone-600 leading-7 text-justify text-sm">${g.content}</p>
+                        </div>
+                        <div class="h-48 w-full bg-stone-100 relative">
+                            <iframe width="100%" height="100%" frameborder="0" scrolling="no" src="https://www.openstreetmap.org/export/embed.html?bbox=109,-45,159,-6&layer=mapnik&marker=-37.8,145"></iframe>
+                            <div class="absolute inset-0 flex items-center justify-center bg-black/5">
+                                <button onclick="openMap('${g.map}')" class="bg-white/90 backdrop-blur text-stone-800 px-4 py-2 rounded-full shadow-lg text-sm font-medium">
+                                    <i class="fa-solid fa-map mr-2 text-clay"></i>開啟詳細地圖
+                                </button>
+                            </div>
+                        </div>
+                    </div>`;
+            });
+            html += `</div>`;
+            container.innerHTML = html;
+        }
 
+        function renderWallet(container) {
+            const savedRate = localStorage.getItem('aud_rate') || '21.5';
+            
+            container.innerHTML = `
+                <div class="space-y-6">
+                    <div class="card p-5 bg-gradient-to-br from-eucalyptus to-eucalyptus-dark text-white shadow-lg">
+                        <h3 class="text-xs font-medium opacity-80 mb-2">匯率換算機 (AUD -> TWD)</h3>
+                        <div class="flex items-end gap-2 mb-4">
+                            <span class="text-2xl font-bold">AUD</span>
+                            <input type="text" id="calc-input" placeholder="例如: 50+20*3" class="flex-1 bg-white/20 border-none rounded text-white placeholder-white/50 px-2 py-1 outline-none text-lg font-mono text-right" inputmode="decimal">
+                        </div>
+                        <div class="flex justify-between items-center border-t border-white/20 pt-3">
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs">匯率:</span>
+                                <input type="number" id="rate-input" value="${savedRate}" class="w-16 bg-white/10 rounded px-1 text-center text-sm font-bold text-white border-none" onchange="updateRate(this.value)">
+                            </div>
+                            <div class="text-right">
+                                <div class="text-xs opacity-70">約台幣</div>
+                                <div class="text-2xl font-bold" id="calc-result">0</div>
+                            </div>
+                        </div>
+                        <button onclick="calculateWallet()" class="w-full mt-3 bg-white text-eucalyptus font-bold py-2 rounded shadow hover:bg-stone-100 active:bg-stone-200 transition">計算</button>
+                    </div>
+
+                    <div class="card p-4">
+                        <h3 class="font-bold text-stone-700 mb-3">新增記帳</h3>
+                        <div class="grid grid-cols-3 gap-2 mb-2">
+                            <input type="text" id="exp-item" placeholder="品項" class="col-span-2 border border-stone-300 rounded px-3 py-2 text-sm bg-stone-50">
+                            <input type="number" id="exp-amount" placeholder="AUD" class="col-span-1 border border-stone-300 rounded px-3 py-2 text-sm bg-stone-50" inputmode="decimal">
+                        </div>
+                        <div class="flex items-center gap-2 mb-3">
+                            <label class="flex-1 flex items-center justify-center gap-2 bg-stone-100 text-stone-600 py-2 rounded cursor-pointer hover:bg-stone-200 transition text-sm select-none">
+                                <i class="fa-solid fa-camera"></i> 
+                                <span id="file-label">拍照/上傳</span>
+                                <input type="file" id="exp-photo" accept="image/*" class="hidden" onchange="handlePhotoSelect(this)">
+                            </label>
+                            <button onclick="addExpense()" class="flex-1 bg-clay text-white py-2 rounded font-medium shadow hover:bg-clay-light text-sm active:bg-clay transition">儲存</button>
+                        </div>
+                    </div>
+
+                    <div id="expense-list" class="space-y-3 pb-10">
+                        </div>
+                </div>
+            `;
+            setTimeout(renderExpenseList, 0); 
+        }
+
+        let tempPhotoBase64 = null;
+
+        function updateRate(val) {
+            if(!val) return;
+            localStorage.setItem('aud_rate', val);
+            calculateWallet();
+            renderExpenseList();
+        }
+
+        function calculateWallet() {
+            const inputEl = $('#calc-input');
+            const rateEl = $('#rate-input');
+            const resultEl = $('#calc-result');
+            
+            if(!inputEl || !rateEl || !resultEl) return;
+
+            const input = inputEl.value;
+            const rate = parseFloat(rateEl.value) || 21.5;
+            
+            try {
+                if (!input.trim()) { resultEl.innerText = '0'; return; }
+                if (!/^[0-9+\-*/().\s]+$/.test(input)) {
+                    throw new Error("Invalid characters");
+                }
+                const audTotal = new Function('return ' + input)();
+                if(isNaN(audTotal)) throw new Error("NaN");
+                
+                const twdTotal = Math.round(audTotal * rate);
+                resultEl.innerText = twdTotal.toLocaleString();
+            } catch (e) {
+                resultEl.innerText = "Error";
+            }
+        }
+
+        function handlePhotoSelect(input) {
+            if (input.files && input.files[0]) {
+                const label = $('#file-label');
+                if(label) label.innerText = "處理中...";
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        
+                        const MAX_WIDTH = 500;
+                        let width = img.width;
+                        let height = img.height;
+
+                        if (width > MAX_WIDTH) {
+                            height *= MAX_WIDTH / width;
+                            width = MAX_WIDTH;
+                        }
+
+                        canvas.width = width;
+                        canvas.height = height;
+                        ctx.drawImage(img, 0, 0, width, height);
+                        
+                        tempPhotoBase64 = canvas.toDataURL('image/jpeg', 0.6); 
+                        if(label) label.innerText = "照片已就緒";
+                    }
+                    img.src = e.target.result;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function addExpense() {
+            const itemEl = $('#exp-item');
+            const amountEl = $('#exp-amount');
+            const labelEl = $('#file-label');
+            
+            if(!itemEl || !amountEl) return;
+
+            const item = itemEl.value;
+            const amount = parseFloat(amountEl.value);
+            
+            if (!item || isNaN(amount)) { alert("請輸入完整資訊"); return; }
+
+            let expenses = [];
+            try {
+                expenses = JSON.parse(localStorage.getItem('expenses')) || [];
+                if(!Array.isArray(expenses)) expenses = [];
+            } catch(e) { expenses = []; }
+
+            expenses.unshift({
+                id: Date.now(),
+                item,
+                amount,
+                photo: tempPhotoBase64,
+                date: new Date().toLocaleDateString()
+            });
+
+            localStorage.setItem('expenses', JSON.stringify(expenses));
+            
+            itemEl.value = '';
+            amountEl.value = '';
+            if(labelEl) labelEl.innerText = "拍照/上傳";
+            tempPhotoBase64 = null;
+            renderExpenseList();
+        }
+
+        function deleteExpense(id) {
+            if(!confirm("確定刪除此筆記帳？")) return;
+            let expenses = [];
+            try {
+                expenses = JSON.parse(localStorage.getItem('expenses')) || [];
+            } catch(e) { expenses = []; }
+            
+            expenses = expenses.filter(e => e.id !== id);
+            localStorage.setItem('expenses', JSON.stringify(expenses));
+            renderExpenseList();
+        }
+
+        function renderExpenseList() {
+            const listEl = $('#expense-list');
+            if(!listEl) return;
+
+            let expenses = [];
+            try {
+                expenses = JSON.parse(localStorage.getItem('expenses')) || [];
+            } catch(e) { expenses = []; }
+
+            const rate = parseFloat(localStorage.getItem('aud_rate') || '21.5');
+            
+            if (expenses.length === 0) {
+                listEl.innerHTML = '<div class="text-center text-stone-400 py-4 text-sm">尚無記帳資料</div>';
+                return;
+            }
+
+            let html = '';
+            let totalAud = 0;
+
+            expenses.forEach(ex => {
+                totalAud += (ex.amount || 0);
+                html += `
+                    <div class="card p-3 flex items-center gap-3">
+                        <div class="w-16 h-16 bg-stone-100 rounded flex-shrink-0 overflow-hidden border border-stone-200">
+                            ${ex.photo ? `<img src="${ex.photo}" class="w-full h-full object-cover cursor-pointer" onclick="showImage('${ex.photo}')">` : '<div class="w-full h-full flex items-center justify-center text-stone-300"><i class="fa-solid fa-image"></i></div>'}
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-bold text-stone-800 truncate">${ex.item}</h4>
+                            <p class="text-xs text-stone-500">${ex.date}</p>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-mono font-bold text-eucalyptus">$${ex.amount}</div>
+                            <div class="text-[10px] text-stone-400">≈NT$ ${Math.round(ex.amount * rate)}</div>
+                        </div>
+                        <button onclick="deleteExpense(${ex.id})" class="text-stone-300 hover:text-red-400 px-2 ml-1"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                `;
+            });
+            
+            html = `
+                <div class="flex justify-between items-center px-2 mb-2">
+                    <span class="text-sm font-bold text-stone-600">總支出</span>
+                    <span class="text-lg font-bold text-clay">$${totalAud.toFixed(2)} <span class="text-xs text-stone-400 font-normal">AUD</span></span>
+                </div>
+            ` + html;
+
+            listEl.innerHTML = html;
+        }
+
+        function showImage(src) {
+            const w = window.open("");
+            w.document.write(`<img src="${src}" style="max-width:100%">`);
+        }
+
+        // 5. LISTS
+        function renderLists(container) {
+            const defaultChecklist = ["護照", "澳幣現金", "信用卡", "個人藥品", "轉接頭 (澳洲八字型)", "網卡/漫遊", "防曬乳/太陽眼鏡 (澳洲紫外線強)", "薄外套 (早晚溫差)", "牙刷牙膏", "保養品"];
+            let savedChecklist;
+            try {
+                savedChecklist = JSON.parse(localStorage.getItem('checklist'));
+            } catch(e) { savedChecklist = null; }
+
+            if (!savedChecklist || !Array.isArray(savedChecklist)) {
+                savedChecklist = defaultChecklist.map(item => ({ text: item, checked: false }));
+                localStorage.setItem('checklist', JSON.stringify(savedChecklist));
+            }
+
+            const savedMemo = localStorage.getItem('memo') || '';
+
+            let html = `
+                <div class="space-y-6">
+                    <div class="card p-5">
+                        <h3 class="font-bold text-stone-700 mb-3 border-b pb-2">行前檢查清單</h3>
+                        <div class="space-y-2">
+                            ${savedChecklist.map((item, i) => `
+                                <label class="flex items-center gap-3 cursor-pointer select-none py-1">
+                                    <input type="checkbox" onchange="toggleCheck(${i})" ${item.checked ? 'checked' : ''} class="w-5 h-5 rounded border-stone-300 text-eucalyptus focus:ring-eucalyptus accent-eucalyptus">
+                                    <span class="${item.checked ? 'text-stone-400 line-through' : 'text-stone-700'} text-sm font-medium transition-all">${item.text}</span>
+                                </label>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <div class="card p-5">
+                        <h3 class="font-bold text-stone-700 mb-3">個人備忘錄</h3>
+                        <textarea id="memo-area" class="w-full h-32 border border-stone-200 rounded p-3 text-sm focus:outline-none focus:border-eucalyptus bg-stone-50" placeholder="輸入筆記或網址 (自動產生按鈕)..." oninput="saveMemo(this.value)">${savedMemo}</textarea>
+                        <div class="mt-2 text-xs text-stone-400">輸入網址後，下方會自動產生連結按鈕</div>
+                        <div id="memo-links" class="flex flex-wrap gap-2 mt-3">
+                             ${extractLinks(savedMemo)}
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.innerHTML = html;
+        }
+
+        function toggleCheck(index) {
+            let list = [];
+            try {
+                list = JSON.parse(localStorage.getItem('checklist')) || [];
+            } catch(e) { return; }
+
+            if(list[index]) {
+                list[index].checked = !list[index].checked;
+                localStorage.setItem('checklist', JSON.stringify(list));
+                switchTab('lists'); 
+            }
+        }
+
+        function saveMemo(val) {
+            localStorage.setItem('memo', val);
+            const linksContainer = $('#memo-links');
+            if(linksContainer) linksContainer.innerHTML = extractLinks(val);
+        }
+
+        function extractLinks(text) {
+            if(!text) return '';
+            const urlRegex = /(https?:\/\/[^\s]+)/g;
+            const matches = text.match(urlRegex);
+            if (!matches) return '';
+            return matches.map(url => `
+                <a href="${url}" target="_blank" class="bg-eucalyptus-light/20 text-eucalyptus-dark px-3 py-1.5 rounded-full text-xs font-medium truncate max-w-full inline-flex items-center hover:bg-eucalyptus-light/40 transition">
+                    <i class="fa-solid fa-link mr-1.5"></i>連結
+                </a>
+            `).join('');
+        }
+
+        // 6. INFO (UPDATED)
+        function renderInfo(container) {
+            container.innerHTML = `
+                <div class="space-y-4">
+                     <div class="card p-5 border-l-4 border-red-500">
+                        <h3 class="font-bold text-red-600 mb-3"><i class="fa-solid fa-triangle-exclamation mr-2"></i>緊急聯絡</h3>
+                        <div class="grid grid-cols-1 gap-3">
+                            <div class="bg-red-50 p-3 rounded flex justify-between items-center">
+                                <span class="text-sm text-stone-600">澳洲報案/救護</span>
+                                <a href="tel:000" class="text-xl font-bold text-red-600">000</a>
+                            </div>
+
+                            <div class="bg-stone-50 p-3 rounded">
+                                <div class="text-xs text-stone-500 mb-1">旅外國人急難救助全球免付費專線</div>
+                                <a href="tel:001180008850885" class="text-lg font-bold text-eucalyptus-dark block">0011-800-0885-0885</a>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3 mt-1">
+                                <a href="tel:+61477586999" class="bg-stone-50 p-3 rounded block hover:bg-stone-100 transition">
+                                    <div class="text-xs text-stone-500">駐雪梨辦事處</div>
+                                    <div class="font-bold text-stone-800 text-sm mt-1 break-words">+61-477-586-999</div>
+                                </a>
+                                <a href="tel:+61413880934" class="bg-stone-50 p-3 rounded block hover:bg-stone-100 transition">
+                                    <div class="text-xs text-stone-500">駐墨爾本辦事處</div>
+                                    <div class="font-bold text-stone-800 text-sm mt-1 break-words">+61-413-880-934</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card p-5">
+                        <h3 class="font-bold text-eucalyptus mb-3">實用工具</h3>
+                        <div class="grid grid-cols-2 gap-3">
+                            <a href="http://www.bom.gov.au/" target="_blank" class="flex items-center justify-center gap-2 bg-stone-100 hover:bg-stone-200 py-3 rounded text-stone-700 font-medium transition text-sm">
+                                <i class="fa-solid fa-cloud-sun"></i> 澳洲氣象局
+                            </a>
+                             <a href="https://transportnsw.info/" target="_blank" class="flex items-center justify-center gap-2 bg-stone-100 hover:bg-stone-200 py-3 rounded text-stone-700 font-medium transition text-sm">
+                                <i class="fa-solid fa-bus"></i> 雪梨交通
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="card p-5">
+                        <h3 class="font-bold text-stone-700 mb-2">旅遊小叮嚀</h3>
+                        <ul class="list-disc list-inside text-sm text-stone-600 space-y-2 leading-relaxed">
+                            <li><span class="font-bold text-clay">靠左行駛：</span>自駕務必注意，雨刷與方向燈位置與台灣相反。</li>
+                            <li><span class="font-bold text-clay">嚴格檢疫：</span>肉類、種子、蔬果絕對禁止入境，未誠實申報罰款極重。</li>
+                            <li><span class="font-bold">飲水：</span>澳洲自來水可生飲（Tap Water）。</li>
+                            <li><span class="font-bold">小費：</span>澳洲無強制小費文化，但在高級餐廳可視服務給予 5-10%。</li>
+                            <li><span class="font-bold">紫外線：</span>澳洲上方有臭氧層破洞，紫外線極強，務必每日塗抹防曬。</li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ==================== 穩定的 Loading 控制 ====================
+        function showApp() {
+            const loading = document.getElementById('loading');
+            const content = document.getElementById('app-content');
+            if (loading && content) {
+                loading.classList.add('hidden');
+                content.classList.remove('hidden');
+                document.body.classList.remove('flex', 'items-center', 'justify-center');
+                document.body.style.backgroundColor = '#f7f5ef';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => { setTimeout(showApp, 300); });
+        setTimeout(showApp, 6000);  // 最多等 6 秒一定顯示
+        window.addEventListener('load', () => { setTimeout(showApp, 500); });
+
+        // 初始化
         document.addEventListener('DOMContentLoaded', () => {
             switchTab('plan');
         });
     </script>
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/travel/sw.js')
-        .catch(err => console.log('SW register failed:', err));
-    });
-  }
-</script>
-<body class="text-sand-800 font-sans antialiased pb-24 min-h-screen flex items-center justify-center bg-sand-100">
-  <!-- 載入中的畫面（會在 JS 跑完前顯示） -->
-  <div id="loading" class="text-center">
-    <div class="w-16 h-16 border-4 border-eucalyptus border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-    <p class="text-eucalyptus-dark font-medium">正在載入澳洲行程…</p>
-    <p class="text-sm text-stone-500 mt-2">第一次會稍微慢一點喔</p>
-  </div>
 
-  <!-- 原本的內容用一個 div 包起來，一開始隱藏 -->
-  <div id="app-content" class="hidden w-full">
-    <header class="fixed top-0 ...（以下全部你原本的 header、main、nav 內容）">
-    <!-- 這裡貼上你原本從 <header> 到 </nav> 的全部程式碼 -->
-    </header>
-
-    <main id="app" class="max-w-md mx-auto px-4 pt-20 mt-2 min-h-screen"></main>
-
-    <nav class="fixed bottom-0 ..."> ... </nav>
-  </div>
-
-  <script>
-    // 等整個頁面資源都準備好才顯示真正內容
-    window.addEventListener('load', () => {
-      setTimeout(() => {  // 多加 500ms 確保字型之類的都好了
-        document.getElementById('loading').classList.add('hidden');
-        document.getElementById('app-content').classList.remove('hidden');
-        document.body.classList.remove('flex', 'items-center', 'justify-center');
-        document.body.classList.add('bg-sand-100'); // 恢復原本背景
-      }, 500);
-    });
-  </script>
+    <!-- Service Worker -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/travel/sw.js').catch(() => {});
+            });
+        }
+    </script>
+</body>
 </html>
-
-
-
