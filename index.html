@@ -5,24 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Australia Trip 2025</title>
 
-    <!-- iOS Web App 必備 -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="澳洲2025">
     <meta name="format-detection" content="telephone=no">
     <meta name="theme-color" content="#f7f5ef">
 
-    <!-- iOS 圖示（正確路徑） -->
     <link rel="apple-touch-icon" href="https://waynelu77.github.io/travel/icons/icon-192.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://waynelu77.github.io/travel/icons/icon-192.png">  <!-- 用同一張替代 -->
-    <link rel="apple-touch-icon" sizes="167x167" href="https://waynelu77.github.io/travel/icons/icon-192.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://waynelu77.github.io/travel/icons/icon-192.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://waynelu77.github.io/travel/icons/icon-192.png">
-
-    <!-- PWA Manifest -->
+    
     <link rel="manifest" href="https://waynelu77.github.io/travel/manifest.json">
 
-    <!-- 資源 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -55,22 +47,26 @@
         .nav-item.active i { transform: translateY(-2px); }
         .card { background: white; border-radius: 1rem; box-shadow: 0 2px 8px rgba(92,84,70,0.05); border: 1px solid rgba(232,228,216,0.6); }
         .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+
+        /* 新增：編輯模式樣式 */
+        .edit-btn { background: #fff; border: 1px dashed #ccc; color: #999; padding: 2px 8px; border-radius: 4px; font-size: 12px; transition: all 0.2s; }
+        .edit-btn:hover { border-color: #4a6741; color: #4a6741; background: #fcfcfc; }
+        .delete-badge { position: absolute; top: -6px; right: -6px; background: #ef4444; color: white; width: 16px; height: 16px; border-radius: 50%; font-size: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; box-shadow: 0 1px 2px rgba(0,0,0,0.2); }
+        .link-btn-wrapper { position: relative; display: inline-block; }
     </style>
 </head>
 
 <body class="text-sand-800 font-sans antialiased min-h-screen flex items-center justify-center bg-sand-100">
     
-    <!-- Loading 畫面 -->
     <div id="loading" class="text-center z-50">
         <div class="w-16 h-16 border-4 border-eucalyptus border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
         <p class="text-eucalyptus-dark font-medium text-lg">正在載入澳洲行程…</p>
         <p class="text-sm text-stone-500 mt-2">第一次會稍微慢一點喔</p>
     </div>
 
-    <!-- 真正內容（一開始隱藏） -->
     <div id="app-content" class="hidden w-full h-full">
         <header class="fixed top-0 w-full bg-sand-50/90 backdrop-blur-md z-40 border-b border-sand-200 shadow-sm">
-            <div class="max-w-md mx-auto px-5 py-4 flex justify-between items-center">  <!-- 改成 max-w-md -->
+            <div class="max-w-md mx-auto px-5 py-4 flex justify-between items-center">
                 <div>
                     <h1 class="text-xl font-bold text-eucalyptus tracking-wide">Australia 2025</h1>
                     <p class="text-xs text-stone-500 font-light" id="current-date">Loading...</p>
@@ -94,7 +90,7 @@
     </div>
 
     <script>
-        // ==================== 全部資料與函數 ====================
+        // ==================== 全部資料 ====================
         const tripData = {
             itinerary: [
                 { day: "Day 1", date: "12/7（日）", city: "雪梨", title: "抵達與港灣初探", icon: "✈️", events: [{ time: "12:10", title: "航班抵達 (CI51)", desc: "預留 1.5小時出關。機場接送前往市區", type: "transport" }, { time: "14:30", title: "入住 Meriton Suites Kent Street", desc: "房內附有完整廚具、洗衣機、烘衣機", type: "checkin", mapQuery: "Meriton Suites Kent Street Sydney" }, { time: "15:30", title: "岩石區 & 港灣大橋", desc: "步行約15分。鵝卵石路面，注意長輩行走", type: "walk", mapQuery: "The Rocks Sydney" }, { time: "18:00", title: "晚餐：The Lord Nelson", desc: "雪梨最古老酒吧之一", type: "food", highlight: true, mapQuery: "The Lord Nelson Brewery Hotel" }, { time: "20:00", title: "雪梨天文台夜景", desc: "欣賞港灣夜景", type: "sight", mapQuery: "Sydney Observatory" }] },
@@ -126,6 +122,7 @@
         const $ = s => document.querySelector(s);
         const $$ = s => document.querySelectorAll(s);
 
+        // ==================== 基礎工具 ====================
         function updateDate() {
             const now = new Date();
             const options = { month: 'long', day: 'numeric', weekday: 'short', hour: '2-digit', minute: '2-digit' };
@@ -133,6 +130,14 @@
         }
         setInterval(updateDate, 60000);
         updateDate();
+
+        window.onload = function() {
+            setTimeout(() => {
+                $('#loading').style.display = 'none';
+                $('#app-content').classList.remove('hidden');
+                switchTab('plan');
+            }, 800);
+        }
 
         function switchTab(tabName) {
             $$('.nav-item').forEach(el => el.classList.remove('active'));
@@ -157,12 +162,70 @@
         }
 
         function openMap(query) {
-            window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`, '_blank');
+            window.open(`http://maps.google.com/?q=${encodeURIComponent(query)}`, '_blank');
         }
 
+        // ==================== 新增的連結編輯功能 ====================
+        let isEditMode = false;
+
+        function getCustomLinks() {
+            return JSON.parse(localStorage.getItem('trip_custom_links')) || {};
+        }
+
+        function toggleEditMode() {
+            isEditMode = !isEditMode;
+            // 重新渲染行程頁面
+            const container = document.querySelector('.tab-content.active');
+            if(container) renderPlan(container);
+        }
+
+        function addLink(dayIdx, eventIdx) {
+            const name = prompt("請輸入按鈕名稱 (例如：食記、Klook購票)：");
+            if (!name) return;
+            
+            const url = prompt("請貼上網址 (URL)：");
+            if (!url) return;
+
+            const links = getCustomLinks();
+            const key = `${dayIdx}-${eventIdx}`;
+            
+            if (!links[key]) links[key] = [];
+            links[key].push({ text: name, url: url });
+            
+            localStorage.setItem('trip_custom_links', JSON.stringify(links));
+            renderPlan(document.querySelector('.tab-content.active')); // 重整
+        }
+
+        function deleteLink(dayIdx, eventIdx, linkIdx) {
+            if(!confirm("確定刪除此按鈕？")) return;
+            
+            const links = getCustomLinks();
+            const key = `${dayIdx}-${eventIdx}`;
+            
+            if (links[key]) {
+                links[key].splice(linkIdx, 1);
+                if (links[key].length === 0) delete links[key];
+                localStorage.setItem('trip_custom_links', JSON.stringify(links));
+                renderPlan(document.querySelector('.tab-content.active')); // 重整
+            }
+        }
+
+        // ==================== 渲染功能 ====================
         function renderPlan(container) {
-            let html = `<div class="space-y-6">`;
-            tripData.itinerary.forEach(day => {
+            const customLinks = getCustomLinks(); // 讀取儲存的連結
+            
+            // 頂部加入編輯開關按鈕
+            let html = `
+                <div class="flex justify-between items-center mb-4 px-1">
+                     <p class="text-sm text-stone-500">我的行程表</p>
+                     <button onclick="toggleEditMode()" class="text-xs px-3 py-1 rounded-full border ${isEditMode ? 'bg-clay text-white border-clay' : 'bg-white text-stone-400 border-stone-200'} transition-all">
+                        <i class="fa-solid fa-pen-to-square mr-1"></i>${isEditMode ? '完成編輯' : '編輯連結'}
+                     </button>
+                </div>
+                <div class="space-y-6">
+            `;
+
+            tripData.itinerary.forEach((day, dayIdx) => {
                 html += `
                     <div class="relative pl-4 border-l-2 border-sand-200">
                         <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-eucalyptus border-2 border-sand-50"></div>
@@ -172,9 +235,53 @@
                         </div>
                         <div class="space-y-3">
                 `;
-                day.events.forEach(ev => {
+                
+                day.events.forEach((ev, eventIdx) => {
                     const highlightClass = ev.highlight ? 'border-clay border-l-4 bg-orange-50/50' : '';
                     const highlightText = ev.highlight ? 'text-clay font-semibold' : 'text-stone-800 font-semibold';
+                    
+                    // --- 處理按鈕 ---
+                    let buttonsHtml = '';
+                    const key = `${dayIdx}-${eventIdx}`;
+                    const myLinks = customLinks[key] || [];
+
+                    // 1. 渲染使用者自訂連結
+                    myLinks.forEach((link, linkIdx) => {
+                        let icon = 'fa-arrow-up-right-from-square';
+                        if(link.text.includes('票') || link.text.includes('booking')) icon = 'fa-ticket';
+                        if(link.text.includes('食') || link.text.includes('吃') || link.text.includes('餐')) icon = 'fa-utensils';
+                        if(link.text.includes('遊記') || link.text.includes('文') || link.text.includes('blog')) icon = 'fa-book-open';
+
+                        const deleteBtn = isEditMode ? `<div onclick="event.stopPropagation(); deleteLink(${dayIdx}, ${eventIdx}, ${linkIdx})" class="delete-badge"><i class="fa-solid fa-xmark"></i></div>` : '';
+
+                        buttonsHtml += `
+                            <div class="link-btn-wrapper relative">
+                                <button onclick="window.open('${link.url}', '_blank')" class="text-xs flex items-center gap-1 text-clay hover:text-clay-light px-2 py-1 rounded bg-white border border-clay/30 shadow-sm transition-all">
+                                    <i class="fa-solid ${icon}"></i> ${link.text}
+                                </button>
+                                ${deleteBtn}
+                            </div>
+                        `;
+                    });
+
+                    // 2. 渲染原本的導航按鈕
+                    if (ev.mapQuery) {
+                        buttonsHtml += `
+                            <button onclick="openMap('${ev.mapQuery}')" class="text-xs flex items-center gap-1 text-eucalyptus hover:text-eucalyptus-dark px-2 py-1 rounded bg-sand-100 hover:bg-sand-200 transition-all">
+                                <i class="fa-solid fa-location-arrow"></i> 導航
+                            </button>
+                        `;
+                    }
+
+                    // 3. 編輯模式下的「新增」按鈕
+                    if (isEditMode) {
+                        buttonsHtml += `
+                            <button onclick="addLink(${dayIdx}, ${eventIdx})" class="edit-btn">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        `;
+                    }
+
                     html += `
                         <div class="card p-4 ${highlightClass} flex flex-col gap-2">
                             <div class="flex justify-between items-start">
@@ -186,7 +293,8 @@
                                     </div>
                                 </div>
                             </div>
-                            ${ev.mapQuery ? `<div class="flex justify-end mt-1"><button onclick="openMap('${ev.mapQuery}')" class="text-xs flex items-center gap-1 text-eucalyptus hover:text-eucalyptus-dark px-2 py-1 rounded bg-sand-100"><i class="fa-solid fa-location-arrow"></i> 導航</button></div>` : ''}
+                            
+                            ${buttonsHtml ? `<div class="flex flex-wrap justify-end mt-1 gap-2 border-t border-stone-100 pt-2">${buttonsHtml}</div>` : ''}
                         </div>`;
                 });
                 html += `</div></div>`;
@@ -241,7 +349,7 @@
         }
 
         function renderWallet(container) {
-            const savedRate = localStorage.getItem('aud_rate') || '21.5';
+            const savedRate = localStorage.getItem('aud_rate') || '21.0';
             
             container.innerHTML = `
                 <div class="space-y-6">
@@ -304,7 +412,7 @@
             if(!inputEl || !rateEl || !resultEl) return;
 
             const input = inputEl.value;
-            const rate = parseFloat(rateEl.value) || 21.5;
+            const rate = parseFloat(rateEl.value) || 21.0;
             
             try {
                 if (!input.trim()) { resultEl.innerText = '0'; return; }
@@ -400,60 +508,6 @@
             expenses = expenses.filter(e => e.id !== id);
             localStorage.setItem('expenses', JSON.stringify(expenses));
             renderExpenseList();
-        }
-
-        function renderExpenseList() {
-            const listEl = $('#expense-list');
-            if(!listEl) return;
-
-            let expenses = [];
-            try {
-                expenses = JSON.parse(localStorage.getItem('expenses')) || [];
-            } catch(e) { expenses = []; }
-
-            const rate = parseFloat(localStorage.getItem('aud_rate') || '21.5');
-            
-            if (expenses.length === 0) {
-                listEl.innerHTML = '<div class="text-center text-stone-400 py-4 text-sm">尚無記帳資料</div>';
-                return;
-            }
-
-            let html = '';
-            let totalAud = 0;
-
-            expenses.forEach(ex => {
-                totalAud += (ex.amount || 0);
-                html += `
-                    <div class="card p-3 flex items-center gap-3">
-                        <div class="w-16 h-16 bg-stone-100 rounded flex-shrink-0 overflow-hidden border border-stone-200">
-                            ${ex.photo ? `<img src="${ex.photo}" class="w-full h-full object-cover cursor-pointer" onclick="showImage('${ex.photo}')">` : '<div class="w-full h-full flex items-center justify-center text-stone-300"><i class="fa-solid fa-image"></i></div>'}
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <h4 class="font-bold text-stone-800 truncate">${ex.item}</h4>
-                            <p class="text-xs text-stone-500">${ex.date}</p>
-                        </div>
-                        <div class="text-right">
-                            <div class="font-mono font-bold text-eucalyptus">$${ex.amount}</div>
-                            <div class="text-[10px] text-stone-400">≈NT$ ${Math.round(ex.amount * rate)}</div>
-                        </div>
-                        <button onclick="deleteExpense(${ex.id})" class="text-stone-300 hover:text-red-400 px-2 ml-1"><i class="fa-solid fa-trash"></i></button>
-                    </div>
-                `;
-            });
-            
-            html = `
-                <div class="flex justify-between items-center px-2 mb-2">
-                    <span class="text-sm font-bold text-stone-600">總支出</span>
-                    <span class="text-lg font-bold text-clay">$${totalAud.toFixed(2)} <span class="text-xs text-stone-400 font-normal">AUD</span></span>
-                </div>
-            ` + html;
-
-            listEl.innerHTML = html;
-        }
-
-        function showImage(src) {
-            const w = window.open("");
-            w.document.write(`<img src="${src}" style="max-width:100%">`);
         }
 
         // 5. LISTS
@@ -585,37 +639,6 @@
             `;
         }
 
-        // ==================== 穩定的 Loading 控制 ====================
-        function showApp() {
-            const loading = document.getElementById('loading');
-            const content = document.getElementById('app-content');
-            if (loading && content) {
-                loading.classList.add('hidden');
-                content.classList.remove('hidden');
-                document.body.classList.remove('flex', 'items-center', 'justify-center');
-                document.body.style.backgroundColor = '#f7f5ef';
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => { setTimeout(showApp, 300); });
-        setTimeout(showApp, 6000);  // 最多等 6 秒一定顯示
-        window.addEventListener('load', () => { setTimeout(showApp, 500); });
-
-        // 初始化
-        document.addEventListener('DOMContentLoaded', () => {
-            switchTab('plan');
-        });
-    </script>
-
-    <!-- Service Worker -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/travel/sw.js').catch(() => {});
-            });
-        }
     </script>
 </body>
 </html>
-
-
